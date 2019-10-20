@@ -40,42 +40,72 @@ if ( ! class_exists( 'DisableExtraFeatures' ) ) :
 		 */
 		public function clean_on_construct() {
 			// Remove really simple discovery link.
-			remove_action( 'wp_head', 'rsd_link' );
+			if ( has_action( 'wp_head', 'rsd_link' ) ) {
+				remove_action( 'wp_head', 'rsd_link' );
+			}
 
 			// Remove WordPress version.
-			remove_action( 'wp_head', 'wp_generator' );
+			if ( has_action( 'wp_head', 'wp_generator' ) ) {
+				remove_action( 'wp_head', 'wp_generator' );
+			}
 
 			// Remove rss feed links.
-			remove_action( 'wp_head', 'feed_links', 2 );
+			if ( has_action( 'wp_head', 'feed_links' ) ) {
+				remove_action( 'wp_head', 'feed_links', 2 );
+			}
 
 			// Removes all extra rss feed links.
-			remove_action( 'wp_head', 'feed_links_extra', 3 );
+			if ( has_action( 'wp_head', 'feed_links_extra' ) ) {
+				remove_action( 'wp_head', 'feed_links_extra', 3 );
+			}
 
 			// Remove link to index page.
-			remove_action( 'wp_head', 'index_rel_link' );
+			if ( has_action( 'wp_head', 'index_rel_link' ) ) {
+				remove_action( 'wp_head', 'index_rel_link' );
+			}
 
 			// Remove wlwmanifest.xml.
-			remove_action( 'wp_head', 'wlwmanifest_link' );
+			if ( has_action( 'wp_head', 'wlwmanifest_link' ) ) {
+				remove_action( 'wp_head', 'wlwmanifest_link' );
+			}
 
 			// Remove random post link.
-			remove_action( 'wp_head', 'start_post_rel_link', 10, 0 );
+			if ( has_action( 'wp_head', 'start_post_rel_link' ) ) {
+				remove_action( 'wp_head', 'start_post_rel_link', 10, 0 );
+			}
 
 			// Remove parent post link.
-			remove_action( 'wp_head', 'parent_post_rel_link', 10, 0 );
+			if ( has_action( 'wp_head', 'parent_post_rel_link' ) ) {
+				remove_action( 'wp_head', 'parent_post_rel_link', 10, 0 );
+			}
 
 			// Remove the next and previous post links.
-			remove_action( 'wp_head', 'adjacent_posts_rel_link', 10, 0 );
-			remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0 );
+			if ( has_action( 'wp_head', 'adjacent_posts_rel_link' ) ) {
+				remove_action( 'wp_head', 'adjacent_posts_rel_link', 10, 0 );
+			}
+
+			if ( has_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' ) ) {
+				remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0 );
+			}
 
 			// Remove emojicon.
-			remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
-			remove_action( 'wp_print_styles', 'print_emoji_styles' );
+			if ( has_action( 'wp_head', 'print_emoji_detection_script' ) ) {
+				remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+			}
+
+			if ( has_action( 'wp_print_styles', 'print_emoji_styles' ) ) {
+				remove_action( 'wp_print_styles', 'print_emoji_styles' );
+			}
 
 			// Remove shortlink.
-			remove_action( 'wp_head', 'wp_shortlink_wp_head', 10, 0 );
+			if ( has_action( 'wp_head', 'wp_shortlink_wp_head' ) ) {
+				remove_action( 'wp_head', 'wp_shortlink_wp_head', 10, 0 );
+			}
 
 			// Remove dns-prefetch meta.
-			remove_action( 'wp_head', 'wp_resource_hints', 2 );
+			if ( has_action( 'wp_head', 'wp_resource_hints' ) ) {
+				remove_action( 'wp_head', 'wp_resource_hints', 2 );
+			}
 		}
 
 		/**
@@ -87,23 +117,36 @@ if ( ! class_exists( 'DisableExtraFeatures' ) ) :
 			// Remove JSON API links in header html.
 
 			// Remove the REST API lines from the HTML Header.
-			remove_action( 'wp_head', 'rest_output_link_wp_head', 10 );
-			remove_action( 'wp_head', 'wp_oembed_add_discovery_links', 10 );
+			if ( has_action( 'wp_head', 'rest_output_link_wp_head' ) ) {
+				remove_action( 'wp_head', 'rest_output_link_wp_head', 10 );
+			}
+
+			if ( has_action( 'wp_head', 'wp_oembed_add_discovery_links' ) ) {
+				remove_action( 'wp_head', 'wp_oembed_add_discovery_links', 10 );
+			}
 
 			// Remove the REST API endpoint.
-			remove_action( 'rest_api_init', 'wp_oembed_register_route' );
+			if ( has_action( 'wp_head', 'wp_oembed_register_route' ) ) {
+				remove_action( 'wp_head', 'wp_oembed_register_route' );
+			}
 
 			// Turn off oEmbed auto discovery.
 			add_filter( 'embed_oembed_discover', '__return_false' );
 
 			// Don't filter oEmbed results.
-			remove_filter( 'oembed_dataparse', 'wp_filter_oembed_result', 10 );
+			if ( has_filter( 'oembed_dataparse', 'wp_filter_oembed_result' ) ) {
+				remove_filter( 'oembed_dataparse', 'wp_filter_oembed_result', 10 );
+			}
 
 			// Remove oEmbed discovery links.
-			remove_action( 'wp_head', 'wp_oembed_add_discovery_links' );
+			if ( has_action( 'wp_head', 'wp_oembed_add_discovery_links' ) ) {
+				remove_action( 'wp_head', 'wp_oembed_add_discovery_links' );
+			}
 
 			// Remove oEmbed-specific JavaScript from the front-end and back-end.
-			remove_action( 'wp_head', 'wp_oembed_add_host_js' );
+			if ( has_action( 'wp_head', 'wp_oembed_add_host_js' ) ) {
+				remove_action( 'wp_head', 'wp_oembed_add_host_js' );
+			}
 
 			// Remove all embeds rewrite rules.
 			/* add_filter( 'rewrite_rules_array', 'disable_embeds_rewrites' ); */
